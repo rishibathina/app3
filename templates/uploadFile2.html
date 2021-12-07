@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cloud Upload Progress</title>
+</head>
+
+<body>
+  <h1>Progress</h1>
+  <!--<form method="post" enctype=multipart/form-data>-->
+     <form class="form" id="uploadForm" method="post" enctype="multipart/form-data">
+            <input type="file" name="inpFile" id="inpFile" /> <br>
+            <input class="button" type="submit" value="Upload" id="uploadButton"/>
+     </form>
+  <!--</form>-->
+  <div class="progress-bar" id="progressBar">
+    <div class="progress-bar-fill">
+      <span class="progress-bar-text">0%</span>
+    </div>
+  </div>
+</body>
+
+><style>
+    .progress-bar {
+    height: 35xp;
+    width: 200px;
+    border: 2px solid darkblue;
+
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: lightblue;
+    display: flex;
+    align-items: center;
+    transition: width 0.25s;
+  }
+
+  .progress-bar-text {
+    margin-left: 10px;
+    font-weight: bold;
+  }
+</style>
+
+<script>
+        const uploadForm = document.getElementById("uploadForm");
+        const inpFile = document.getElementById("inpFile");
+        const progressBarFill = document.querySelector("#progressBar > .progress-bar-fill");
+        const progressBarText = progressBarFill.querySelector(" .progress-bar-text");
+
+
+        //console.log("uploadForm= " + uploadForm);
+        uploadForm.addEventListener("submit", uploadFile);
+
+        function uploadFile(theFile) {
+            theFile.preventDefault();
+
+            const xhr = new XMLHttpRequest();
+
+            xhr.open("POST", "/upload", true);
+            xhr.upload.addEventListener("progress", theFile => {
+                const percent = theFile.lengthComputable ? (theFile.loaded / theFile.total) * 100 : 0;
+
+                progressBarFill.style.width = percent.toFixed(2) + "%";
+                progressBarText.textContent = percent.toFixed(2) + "%";
+            });
+
+            xhr.setRequestHeader("Content-Type", "multipart/form-data");
+            xhr.send(new FormData(uploadForm));
+        }
+</script>
+
+</html>

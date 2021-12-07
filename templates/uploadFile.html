@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Upload Cloud</title>
+    </head>
+
+    <body>
+        <h1>Upload Cloud</h1>
+        <form method="post" enctype=multipart/form-data>
+            <form class="form" id="uploadForm">
+                <input type="file" name="inpFile" multiple/>
+                <input class="button" type="submit" value="Upload">
+            </form>
+        </form>
+            <p>
+                {{message}}
+            </p>
+    </body>
+</html>
